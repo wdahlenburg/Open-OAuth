@@ -47,4 +47,4 @@ def requestToken():
   return Response(urlencode(response), mimetype='application/x-www-form-urlencoded')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(ssl_context=('cert.pem', 'key.pem'), debug=True)
