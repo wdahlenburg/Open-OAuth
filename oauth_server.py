@@ -46,5 +46,27 @@ def requestToken():
 
   return Response(urlencode(response), mimetype='application/x-www-form-urlencoded')
 
+@app.route('/oauth/authorize', methods=['GET'])
+def authorizeUser(oauth_token):
+  for i in tokens:
+    if i.oauth_token == oauth_token:
+      return redirect(i.callback_url, code=302)
+
+@app.route('/oauth/accessToken', methods=['GET'])
+def accessToken()
+  oauth_header = request.headers['Authorization']
+  oauth_params = oauth_header.split("OAuth ")[-1].split(", ")
+
+  oauth_data = {}
+  for param in oauth_params:
+    name, value = param.split("=")
+    value = value.replace('"', '')
+    oauth_data[name] = value
+
+  for i in tokens:
+    if i.oauth_token == oauth_data['oauth_token']:
+      token = urlencode({'oauth_token': i.oauth_token, 'oauth_token_secret': i.oauth_token_secret})
+      return Response(token, mimetype='application/x-www-form-urlencoded')
+
 if __name__ == "__main__":
     app.run(ssl_context=('cert.pem', 'key.pem'), debug=True)
